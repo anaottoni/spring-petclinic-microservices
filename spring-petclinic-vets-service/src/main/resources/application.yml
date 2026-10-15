@@ -1,16 +1,69 @@
 spring:
   application:
     name: vets-service
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
+  cloud:
+    config:
+      enabled: false
   cache:
     cache-names: vets
-  profiles:
-    active: production
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: embedded
+
+server:
+  port: 8083
+  shutdown: graceful
+
+vets:
+  cache:
+    ttl: 60
+    heap-size: 100
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  tracing:
+    enabled: false
+
+logging:
+  level:
+    org.springframework: INFO
 
 ---
 spring:
   config:
     activate:
-      on-profile: docker
-    import: configserver:http://config-server:8888
+      on-profile: postgres
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/vets}
+    username: ${SPRING_DATASOURCE_USERNAME:petclinic}
+    password: ${SPRING_DATASOURCE_PASSWORD:petclinic}
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath*:db/postgres/schema.sql
+      data-locations: classpath*:db/postgres/data.sql
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

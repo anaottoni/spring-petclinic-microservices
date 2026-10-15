@@ -69,8 +69,10 @@ class PetResource {
     @PutMapping("/owners/*/pets/{petId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void processUpdateForm(@Valid @RequestBody PetRequest petRequest) {
-        int petId = petRequest.id();
-        Pet pet = findPetById(petId);
+        if (petRequest.id() == null) {
+            throw new ResourceNotFoundException("Pet id is required for update");
+        }
+        Pet pet = findPetById(petRequest.id());
         save(pet, petRequest);
     }
 

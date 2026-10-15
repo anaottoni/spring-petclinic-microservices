@@ -1,0 +1,2 @@
+CREATE DATABASE customers;
+CREATE DATABASE vets;

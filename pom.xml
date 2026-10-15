@@ -15,14 +15,11 @@
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
 
+    <!-- Experimento: apenas os serviços necessários para comparação justa com o modulith.
+         Módulos extras (admin, visits, genai, config, discovery) permanecem no disco. -->
     <modules>
-        <module>spring-petclinic-admin-server</module>
         <module>spring-petclinic-customers-service</module>
         <module>spring-petclinic-vets-service</module>
-        <module>spring-petclinic-visits-service</module>
-        <module>spring-petclinic-genai-service</module>
-        <module>spring-petclinic-config-server</module>
-        <module>spring-petclinic-discovery-server</module>
         <module>spring-petclinic-api-gateway</module>
     </modules>
 

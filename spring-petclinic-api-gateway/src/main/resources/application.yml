@@ -1,53 +1,63 @@
 spring:
   application:
     name: api-gateway
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
   cloud:
+    config:
+      enabled: false
     gateway:
       server:
         webflux:
-          default-filters:
-            - name: CircuitBreaker
-              args:
-                name: defaultCircuitBreaker
-                fallbackUri: forward:/fallback
-            - name: Retry
-              args:
-                retries: 1
-                statuses: SERVICE_UNAVAILABLE
-                methods: POST
+          # Sem CircuitBreaker/Retry: no experimento, 503 artificial distorce a
+          # comparação com o monólito (que não tem fallback).
           routes:
             - id: vets-service
-              uri: lb://vets-service
+              uri: ${VETS_SERVICE_URL:http://localhost:8083}
               predicates:
                 - Path=/api/vet/**
               filters:
                 - StripPrefix=2
-            - id: visits-service
-              uri: lb://visits-service
-              predicates:
-                - Path=/api/visit/**
-              filters:
-                - StripPrefix=2
             - id: customers-service
-              uri: lb://customers-service
+              uri: ${CUSTOMERS_SERVICE_URL:http://localhost:8081}
               predicates:
                 - Path=/api/customer/**
               filters:
                 - StripPrefix=2
-            - id: genai-service
-              uri: lb://genai-service
-              predicates:
-                - Path=/api/genai/**
-              filters:
-                - StripPrefix=2
-                - CircuitBreaker=name=genaiCircuitBreaker,fallbackUri=/fallback
   reactor:
     context-propagation: auto
+  messages:
+    basename: messages/messages
+
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: application/json,text/css,application/javascript
+    min-response-size: 2048
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  tracing:
+    enabled: false
+
+logging:
+  level:
+    org.springframework: INFO
+
 ---
 spring:
   config:
     activate:
       on-profile: docker
-    import: configserver:http://config-server:8888
