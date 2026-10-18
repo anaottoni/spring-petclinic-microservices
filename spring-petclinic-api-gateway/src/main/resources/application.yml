@@ -7,8 +7,6 @@ spring:
     gateway:
       server:
         webflux:
-          # Sem CircuitBreaker/Retry: no experimento, 503 artificial distorce a
-          # comparação com o monólito (que não tem fallback).
           routes:
             - id: vets-service
               uri: ${VETS_SERVICE_URL:http://localhost:8083}
@@ -22,17 +20,9 @@ spring:
                 - Path=/api/customer/**
               filters:
                 - StripPrefix=2
-  reactor:
-    context-propagation: auto
-  messages:
-    basename: messages/messages
 
 server:
   port: 8080
-  compression:
-    enabled: true
-    mime-types: application/json,text/css,application/javascript
-    min-response-size: 2048
 
 eureka:
   client:
