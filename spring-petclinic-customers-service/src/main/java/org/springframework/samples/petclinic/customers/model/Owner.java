@@ -100,6 +100,10 @@ public class Owner {
         return this.id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return this.firstName;
     }

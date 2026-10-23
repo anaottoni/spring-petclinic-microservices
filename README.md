@@ -17,9 +17,9 @@ Removidos do experimento: Config Server, Eureka, Visits, GenAI, Admin, Zipkin, G
 
 Mesmo fluxo JMeter do monolito:
 
-- `GET /api/vet/vets`
-- `POST /api/customer/owners`
-- `POST /api/customer/owners/{ownerId}/pets`
+- `GET /api/vets`
+- `POST /api/owners`
+- `POST /api/owners/{ownerId}/pets`
 
 ## Como executar (Docker)
 

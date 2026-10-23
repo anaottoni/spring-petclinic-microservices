@@ -11,15 +11,11 @@ spring:
             - id: vets-service
               uri: ${VETS_SERVICE_URL:http://localhost:8083}
               predicates:
-                - Path=/api/vet/**
-              filters:
-                - StripPrefix=2
+                - Path=/api/vets/**
             - id: customers-service
               uri: ${CUSTOMERS_SERVICE_URL:http://localhost:8081}
               predicates:
-                - Path=/api/customer/**
-              filters:
-                - StripPrefix=2
+                - Path=/api/owners/**,/api/pet-types
 
 server:
   port: 8080

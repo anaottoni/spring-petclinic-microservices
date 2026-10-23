@@ -1,12 +1,12 @@
-package org.springframework.samples.petclinic.customers.web.mapper;
+package org.springframework.samples.petclinic.customers.mapper;
 
+import org.springframework.samples.petclinic.customers.dto.OwnerRequest;
 import org.springframework.samples.petclinic.customers.model.Owner;
-import org.springframework.samples.petclinic.customers.web.OwnerRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OwnerEntityMapper implements Mapper<OwnerRequest, Owner> {
-    // This is done by hand for simplicity purpose. In a real life use-case we should consider using MapStruct.
+
     @Override
     public Owner map(final Owner owner, final OwnerRequest request) {
         owner.setAddress(request.address());
@@ -16,4 +16,5 @@ public class OwnerEntityMapper implements Mapper<OwnerRequest, Owner> {
         owner.setLastName(request.lastName());
         return owner;
     }
+
 }

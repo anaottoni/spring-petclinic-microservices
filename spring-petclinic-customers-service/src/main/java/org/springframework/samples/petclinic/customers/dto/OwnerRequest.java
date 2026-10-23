@@ -1,14 +1,11 @@
-package org.springframework.samples.petclinic.customers.web;
+package org.springframework.samples.petclinic.customers.dto;
 
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public record OwnerRequest(@NotBlank String firstName,
                            @NotBlank String lastName,
                            @NotBlank String address,
                            @NotBlank String city,
-                           @NotBlank
-                           @Digits(fraction = 0, integer = 12)
-                           String telephone
-) {
+                           @NotBlank @Pattern(regexp = "\\d{10}") String telephone) {
 }
